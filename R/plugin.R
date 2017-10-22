@@ -288,22 +288,43 @@ function(x, nos = 1L, solver = NULL, control = NULL, y,
     ylist
 }
 
+choose_method <- function(method) {
+    milp <- OP(1:3, L_constraint(1:3, "<=", 3), types = c("B", "I", "C"))
+    milp_solvers <- setdiff(ROI_applicable_solvers(milp), "msbinlp")
+
+    if ( isTRUE(method %in% milp_solvers) ) {
+        return( method )
+    } else {
+        if ( length(k <- which(ROI_options("solver_selection_table")$MILP %in% milp_solvers)) ) {
+            new_method <- ROI_options("solver_selection_table")$MILP[head(k, 1)]
+        } else {
+            new_method <- head(milp_solvers, 1)
+            if ( !length(new_method) ) 
+                stop("no mixed integer solver found please install at least ",
+                     "one mixed integer solver (e.g. 'ROI.plugin.glpk')")
+        }
+        if ( !is.null(method) )
+            warning("method '", method, "' is not available or applicable ROI uses '", new_method, "' instead!")
+    }
+    new_method
+}
+
 solve_OP <- function(x, control=list()) {
     solver <- ROI_plugin_get_solver_name( getPackageName() )
 
     if ( is.null(control$nsol_max) ) {
         nos <- 1L    
     } else {
-        if ( is.numeric(control$nsol_max) ) {
+        if ( is.numeric(control$nsol_max) & isTRUE(control$nsol_max != Inf) ) {
             nos <- as.integer(control$nsol_max)
         } else {
             nos <- NA
         }
     }
-    method <- if ( is.null(control$method) ) "glpk" else control$method
+
+    method <- choose_method( control$method )
     control[['method']] <- NULL
     control[['nsol_max']] <- NULL
-    control[['dry_run']] <- NULL
 
     out <- .find_up_to_n_binary_MILP_solutions(x, nos = nos,
                                                   add = TRUE, 

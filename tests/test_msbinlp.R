@@ -2,6 +2,7 @@ library(slam)
 library(ROI)
 library(ROI.plugin.msbinlp)
 
+
 ## to simulate cran conditions
 ## Sys.setenv(ROI_LOAD_PLUGINS = FALSE)
 
@@ -32,6 +33,7 @@ test_blp_multisol_01 <- function(solver) {
     check("BLPMS-01@01", equal(nrow(sol), 2L))
     check("BLPMS-01@02", equal(ncol(sol), 2L))
     check("BLPMS-01@03", (equal(sol, diag(2)) | equal(sol, diag(2)[2:1, ])))
+    sol
 }
 
 ## -----------------------------------------------------------------------------
@@ -53,7 +55,7 @@ test_blp_multisol_02 <- function(solver) {
     constraints(x) <- L_constraint(mat, 
                                    dir = leq(3), 
                                    rhs = rep.int(1, 3))
-    types(x) <- rep("B", length(x))
+    types(x) <- rep("B", length(objective(x)))
 
     method <- head(setdiff(ROI_applicable_solvers(x), solver), 1)
     if ( length(method) == 0L )
@@ -67,6 +69,7 @@ test_blp_multisol_02 <- function(solver) {
     check("BLPMS-02@01", equal(nrow(sol), 2L))
     check("BLPMS-02@02", equal(ncol(sol), 5L))
     check("BLPMS-02@03", (equal(sol, y) | equal(sol, y[2:1, ])))
+    sol
 }
 
 if ( !any("msbinlp" %in% names(ROI_registered_solvers())) ) {
