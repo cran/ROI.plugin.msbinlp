@@ -1,4 +1,5 @@
 \name{Example-2}
+\alias{Example-2}
 \title{Multiple Solutions - Binary LP}
 
 \description{

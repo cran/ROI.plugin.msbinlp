@@ -1,8 +1,8 @@
-fb4568873ab29bd3649f0178422ebea4 *DESCRIPTION
+90f626ae312f4d4d74884d5bfa6cbd24 *DESCRIPTION
 d51141966cb32e0392eb6ce1f4082e31 *NAMESPACE
 607d4919264669b10d00239d6358817a *R/plugin.R
 880ffdeeb757f196783712e25838b6a5 *R/status_codes.R
 5505406eef4dd63060883ca7e01bf107 *R/zzz.R
-2c9fd9b86f380ab9470b10d6af3db2b8 *man/Example_01.Rd
-feae1d1fbcc3ebbd251372b9310b25a0 *man/Example_02.Rd
+bb3dffa26fd502bfe5a7edbb069dfd32 *man/Example_01.Rd
+873df716b5adaed4888ee4457a4e437f *man/Example_02.Rd
 6bc045709b609bf335a1df0efe0e7fbb *tests/test_msbinlp.R
